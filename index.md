@@ -15,6 +15,15 @@ Syntax highlighted code block
 ## Header 2
 ### Header 3
 
+
+<pre class="line-numbers">
+  <code class="language-css">
+    p { color: red }
+  </code>
+</pre>
+
+Yields:
+
 - Bulleted
 - List
 
