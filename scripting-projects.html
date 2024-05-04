@@ -11,7 +11,7 @@
     <link href="css/flexslider.css" rel="stylesheet" >
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/queries.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+    #<link href="css/animate.css" rel="stylesheet">
     <style>
         body {
             background-color: black;
@@ -32,8 +32,8 @@
             color: white; /* White text color */
         }
         pre {
-            white-space: pre-wrap;
-            #word-wrap: break-word;
+            #white-space: pre-wrap;
+            word-wrap: break-word;
         }
         .title-link {
             color: white;
@@ -48,8 +48,8 @@
             margin: 0 auto;
         }
         .code-box {
-            background-color: black; /* Black background */
-            border-radius: 5px;
+            background-color: navy; /* Black background */
+            border-radius: 0px;
             padding: 20px;
             margin-bottom: 20px;
             overflow-x: auto;
@@ -63,13 +63,13 @@
     <!-- content scripting projects -->
     <!-- Row of titles linking to different sections -->
     <div style="text-align: center; margin-top: 20px;">
-        <a href="#copying" class="title-link">Copying files and creating a new version</a>
+        <a href="#project1" class="title-link">Copying files and creating a new version</a>
         <a href="#project2" class="title-link">Project 2</a>
         <a href="#project3" class="title-link">Project 3</a>
     </div>
 
     <!-- Explanation -->
-    <div class="intro text-center section-padding" id="copying">
+    <div class="intro text-center section-padding" id="project 1">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 wp1">
@@ -81,8 +81,7 @@
                     <div class="code-box">
                         <pre>
                             <code>
-                                #!/bin/bash
-
+#!/bin/bash
 #echo "Creating the new version"
 firstline=$(head -n 1 source/changelog.md)
 read -a splitfirstline <<< $firstline
