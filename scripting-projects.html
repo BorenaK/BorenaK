@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scripting Projects</title>
     <style>
-        code {
+        pre code {
             display: block;
             padding: 10px;
             background-color: black;
@@ -22,61 +22,64 @@
     <h2>Copying files and creating a new version</h2>
     <p>Script to copy files to a different folder and update the information on one of the files.</p>
 
-    <code>
-        #!/bin/bash
+    <pre>
+        <code>
+#!/bin/bash
 
-        echo "Creating the new version"
+echo "Creating the new version"
 
-        # Read the first line of changelog.md into a variable
-        firstline=$(head -n 1 source/changelog.md)
+# Read the first line of changelog.md into a variable
+firstline=$(head -n 1 source/changelog.md)
 
-        # Split the first line into an array
-        read -a splitfirstline <<< $firstline
+# Split the first line into an array
+read -a splitfirstline <<< $firstline
 
-        # Get the version number from the array
-        version=${splitfirstline[1]}
-        echo "You are building version" $version
+# Get the version number from the array
+version=${splitfirstline[1]}
+echo "You are building version" $version
 
-        # Ask the user if they want to continue
-        echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
-        read versioncontinue
+# Ask the user if they want to continue
+echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+read versioncontinue
 
-        # Check user input
-        if [ $versioncontinue -eq 1 ]
-        then
-          echo "OK"
+# Check user input
+if [ $versioncontinue -eq 1 ]
+then
+  echo "OK"
 
-          # Copy files from source to build
-          for filename in source/*
-          do
-            if [ "$filename" == "source/versioninfo.md" ]
-            then
-              echo "Copying versioninfo.md with replacements"
-              # Replace "42" with "43" while copying
-              sed 's/42/43/g' $filename > build/versioninfo.md
-            else
-              echo "Copying" $filename
-              cp $filename build/.
-            fi
-          done
+  # Copy files from source to build
+  for filename in source/*
+  do
+    if [ "$filename" == "source/versioninfo.md" ]
+    then
+      echo "Copying versioninfo.md with replacements"
+      # Replace "42" with "43" while copying
+      sed 's/42/43/g' $filename > build/versioninfo.md
+    else
+      echo "Copying" $filename
+      cp $filename build/.
+    fi
+  done
 
-          # Change directory to build
-          cd build/
+  # Change directory to build
+  cd build/
 
-          # Notify the user of files in build directory
-          echo "Build version $version contains:"
-          ls
-          echo "New version is:"
-          cat versioninfo.md
+  # Notify the user of files in build directory
+  echo "Build version $version contains:"
+  ls
+  echo "New version is:"
+  cat versioninfo.md
 
-          # Change back to original directory
-          cd ..
-        else
-          echo "Please come back when you are ready"
-        fi
-    </code>
+  # Change back to original directory
+  cd ..
+else
+  echo "Please come back when you are ready"
+fi
+        </code>
+    </pre>
 
     <p><a href="index.html">Back to Portfolio</a></p>
 </body>
 </html>
+
 
