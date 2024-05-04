@@ -4,139 +4,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scripting Projects</title>
-    <!-- CSS files -->
-    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/flexslider.css" rel="stylesheet" >
-    <link href="css/styles.css" rel="stylesheet">
-    <link href="css/queries.css" rel="stylesheet">
     <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: monospace;
-            padding-top: 50px; /* Add padding to avoid overlap with the fixed navigation */
-        }
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Varela Round', sans-serif;
-        }
         code {
             display: block;
             padding: 10px;
-            background-color: black; /* Black background */
-            overflow-x: auto;
+            background-color: black;
+            color: white;
             border-radius: 5px;
             margin-bottom: 20px;
-            color: white; /* White text color */
-        }
-        pre {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-        .title-link {
-            color: white;
-            text-decoration: none;
-            margin-right: 20px;
-        }
-        .title-link:hover {
-            color: yellow;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
-        .code-box {
-            background-color: black; /* Black background */
-            border-radius: 0px;
-            padding: 20px;
-            margin-bottom: 20px;
             overflow-x: auto;
-        }
-        .code-box pre {
-            margin: 0;
         }
     </style>
 </head>
 <body>
-    <!-- content scripting projects -->
-    <!-- Row of titles linking to different sections -->
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="#project1" class="title-link">Project 1</a>
-        <a href="#project2" class="title-link">Project 2</a>
-        <a href="#project3" class="title-link">Project 3</a>
-    </div>
+    <h1>Scripting Projects</h1>
 
-    <!-- Explanation -->
-    <div class="intro text-center section-padding" id="project1">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 col-md-offset-2 wp1">
-                    <h1 class="arrow">Copying files and creating a new version</h1>
-                    <p>
-                        Script to copy files to a different folder and update the information on one of the files.
-                    </p>
-                    <!-- Code snippet box -->
-                    <div class="code-box">
-                        <pre>
-                            <code>
-#!/bin/bash
-#echo "Creating the new version"
-firstline=$(head -n 1 source/changelog.md)
-read -a splitfirstline <<< $firstline
-version=${splitfirstline[1]}
-echo "You are building version" $version
-echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
-read versioncontinue
+    <h2>Copying files and creating a new version</h2>
+    <p>Script to copy files to a different folder and update the information on one of the files.</p>
 
-if [ $versioncontinue -eq 1 ]
-then
-  echo "OK"
-  for filename in source/*
-  do
-    if [ "$filename" == "source/versioninfo.md" ]
-    then
-      echo "Copying versioninfo.md with changes"
-      # Replace "42" with "43" while copying
-      sed 's/42/43/g' $filename > build/versioninfo.md
-    else
-      echo "Copying" $filename
-      cp $filename build/.
-    fi
-  done
+    <code>
+        #!/bin/bash
 
-  cd build/
-  echo "Build version $version contains:"
-  ls
-  echo "New version is:"
-  cat versioninfo.md
+        echo "Creating the new version"
 
-  #retreat
-  cd ..
-else
-  echo "Please come back when you are ready"
-fi
-                            </code>
-                        </pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        # Read the first line of changelog.md into a variable
+        firstline=$(head -n 1 source/changelog.md)
 
-    <!-- link to main portfolio -->
-    <div style="text-align: center; margin-bottom: 20px;">
-        <a href="index.html" id="back" style="color: white;">main</a>
-    </div>
+        # Split the first line into an array
+        read -a splitfirstline <<< $firstline
 
-    <!-- JavaScript files -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="js/waypoints.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/scripts.js"></script>
-    <script src="js/jquery.flexslider.js"></script>
-    <script src="js/modernizr.js"></script>
+        # Get the version number from the array
+        version=${splitfirstline[1]}
+        echo "You are building version" $version
+
+        # Ask the user if they want to continue
+        echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+        read versioncontinue
+
+        # Check user input
+        if [ $versioncontinue -eq 1 ]
+        then
+          echo "OK"
+
+          # Copy files from source to build
+          for filename in source/*
+          do
+            if [ "$filename" == "source/versioninfo.md" ]
+            then
+              echo "Copying versioninfo.md with replacements"
+              # Replace "42" with "43" while copying
+              sed 's/42/43/g' $filename > build/versioninfo.md
+            else
+              echo "Copying" $filename
+              cp $filename build/.
+            fi
+          done
+
+          # Change directory to build
+          cd build/
+
+          # Notify the user of files in build directory
+          echo "Build version $version contains:"
+          ls
+          echo "New version is:"
+          cat versioninfo.md
+
+          # Change back to original directory
+          cd ..
+        else
+          echo "Please come back when you are ready"
+        fi
+    </code>
+
+    <p><a href="index.html">Back to Portfolio</a></p>
 </body>
 </html>
 
-</html>
