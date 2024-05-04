@@ -23,11 +23,11 @@
         }
         code {
             display: block;
-            padding: 20px; /* Increased padding */
+            padding: 10px;
             background-color: #333;
             overflow-x: auto;
             border-radius: 5px;
-            margin-bottom: 40px; /* Increased margin */
+            margin-bottom: 20px;
         }
         pre {
             white-space: pre-wrap;
@@ -48,15 +48,12 @@
         .code-box {
             background-color: #333;
             border-radius: 5px;
-            padding: 30px; /* Increased padding */
-            margin-bottom: 30px; /* Increased margin */
+            padding: 20px;
+            margin-bottom: 20px;
             overflow-x: auto;
             text-align: left; /* Align code snippet box to the left */
         }
-        .code-box div {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            display: block;
+        .code-box pre {
             margin: 0;
         }
     </style>
@@ -101,49 +98,61 @@
                     </p>
                     <!-- Code snippet box -->
                     <div class="code-box">
-                        <code>
-                            <div>#!/bin/bash</div>
-                            <div>echo "Creating the new version"</div>
-                            <div># Read the first line of changelog.md into a variable</div>
-                            <div>firstline=$(head -n 1 source/changelog.md)</div>
-                            <div># Split the first line into an array</div>
-                            <div>read -a splitfirstline <<< $firstline</div>
-                            <div># Get the version number from the array</div>
-                            <div>version=${splitfirstline[1]}</div>
-                            <div>echo "You are building version" $version</div>
-                            <div># Ask the user if they want to continue</div>
-                            <div>echo 'Do you want to continue? (enter "1" for yes, "0" for no)'</div>
-                            <div>read versioncontinue</div>
-                            <div># Check user input</div>
-                            <div>if [ $versioncontinue -eq 1 ]</div>
-                            <div>then</div>
-                            <div>echo "OK"</div>
-                            <div># Copy files from source to build</div>
-                            <div>for filename in source/*</div>
-                            <div>do</div>
-                            <div>if [ "$filename" == "source/versioninfo.md" ]</div>
-                            <div>then</div>
-                            <div>echo "Copying versioninfo.md with replacements"</div>
-                            <div># Replace "42" with "43" while copying</div>
-                            <div>sed 's/42/43/g' $filename &gt; build/versioninfo.md</div>
-                            <div>else</div>
-                            <div>echo "Copying" $filename</div>
-                            <div>cp $filename build/.</div>
-                            <div>fi</div>
-                            <div>done</div>
-                            <div># Change directory to build</div>
-                            <div>cd build/</div>
-                            <div># Notify the user of files in build directory</div>
-                            <div>echo "Build version $version contains:"</div>
-                            <div>ls</div>
-                            <div>echo "New version is:"</div>
-                            <div>cat versioninfo.md</div>
-                            <div># Change back to original directory</div>
-                            <div>cd ..</div>
-                            <div>else</div>
-                            <div>echo "Please come back when you are ready"</div>
-                            <div>fi</div>
-                        </code>
+                        <pre>
+                            <code>
+                                #!/bin/bash
+
+                                echo "Creating the new version"
+
+                                # Read the first line of changelog.md into a variable
+                                firstline=$(head -n 1 source/changelog.md)
+
+                                # Split the first line into an array
+                                read -a splitfirstline <<< $firstline
+
+                                # Get the version number from the array
+                                version=${splitfirstline[1]}
+                                echo "You are building version" $version
+
+                                # Ask the user if they want to continue
+                                echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+                                read versioncontinue
+
+                                # Check user input
+                                if [ $versioncontinue -eq 1 ]
+                                then
+                                  echo "OK"
+
+                                  # Copy files from source to build
+                                  for filename in source/*
+                                  do
+                                    if [ "$filename" == "source/versioninfo.md" ]
+                                    then
+                                      echo "Copying versioninfo.md with replacements"
+                                      # Replace "42" with "43" while copying
+                                      sed 's/42/43/g' $filename > build/versioninfo.md
+                                    else
+                                      echo "Copying" $filename
+                                      cp $filename build/.
+                                    fi
+                                  done
+
+                                  # Change directory to build
+                                  cd build/
+
+                                  # Notify the user of files in build directory
+                                  echo "Build version $version contains:"
+                                  ls
+                                  echo "New version is:"
+                                  cat versioninfo.md
+
+                                  # Change back to original directory
+                                  cd ..
+                                else
+                                  echo "Please come back when you are ready"
+                                fi
+                            </code>
+                        </pre>
                     </div>
                 </div>
             </div>
