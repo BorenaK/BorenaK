@@ -63,9 +63,9 @@
     <!-- content scripting projects -->
     <!-- Row of titles linking to different sections -->
     <div style="text-align: center; margin-top: 20px;">
-        <a href="#copying" class="title-link">Copying files and creating a new version</a>
-        <a href="#build-version" class="title-link">Build Version</a>
-        <a href="#back" class="title-link">Back to Portfolio</a>
+        <a href="#project1" class="title-link">Copying files and creating a new version</a>
+        <a href="#project2" class="title-link">Project 2</a>
+        <a href="#project3" class="title-link">Project 3</a>
     </div>
 
     <!-- Explanation -->
@@ -81,57 +81,43 @@
                     <div class="code-box">
                         <pre>
                             <code>
-                                #!/bin/bash
+#!/bin/bash
 
-                                echo "Creating the new version"
+#echo "Creating the new version"
+firstline=$(head -n 1 source/changelog.md)
+read -a splitfirstline <<< $firstline
+version=${splitfirstline[1]}
+echo "You are building version" $version
+echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+read versioncontinue
 
-                                # Read the first line of changelog.md into a variable
-                                firstline=$(head -n 1 source/changelog.md)
+if [ $versioncontinue -eq 1 ]
+then
+  echo "OK"
+  for filename in source/*
+  do
+    if [ "$filename" == "source/versioninfo.md" ]
+    then
+      echo "Copying versioninfo.md with changes"
+      # Replace "42" with "43" while copying
+      sed 's/42/43/g' $filename > build/versioninfo.md
+    else
+      echo "Copying" $filename
+      cp $filename build/.
+    fi
+  done
 
-                                # Split the first line into an array
-                                read -a splitfirstline <<< $firstline
+  cd build/
+  echo "Build version $version contains:"
+  ls
+  echo "New version is:"
+  cat versioninfo.md
 
-                                # Get the version number from the array
-                                version=${splitfirstline[1]}
-                                echo "You are building version" $version
-
-                                # Ask the user if they want to continue
-                                echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
-                                read versioncontinue
-
-                                # Check user input
-                                if [ $versioncontinue -eq 1 ]
-                                then
-                                  echo "OK"
-
-                                  # Copy files from source to build
-                                  for filename in source/*
-                                  do
-                                    if [ "$filename" == "source/versioninfo.md" ]
-                                    then
-                                      echo "Copying versioninfo.md with replacements"
-                                      # Replace "42" with "43" while copying
-                                      sed 's/42/43/g' $filename > build/versioninfo.md
-                                    else
-                                      echo "Copying" $filename
-                                      cp $filename build/.
-                                    fi
-                                  done
-
-                                  # Change directory to build
-                                  cd build/
-
-                                  # Notify the user of files in build directory
-                                  echo "Build version $version contains:"
-                                  ls
-                                  echo "New version is:"
-                                  cat versioninfo.md
-
-                                  # Change back to original directory
-                                  cd ..
-                                else
-                                  echo "Please come back when you are ready"
-                                fi
+  #retreat
+  cd ..
+else
+  echo "Please come back when you are ready"
+fi
                             </code>
                         </pre>
                     </div>
@@ -142,7 +128,7 @@
 
     <!-- link to main portfolio -->
     <div style="text-align: center; margin-bottom: 20px;">
-        <a href="index.html" id="back" style="color: white;">Back to Portfolio</a>
+        <a href="index.html" id="back" style="color: white;">main</a>
     </div>
 
     <!-- JavaScript files -->
@@ -151,6 +137,6 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
     <script src="js/jquery.flexslider.js"></script>
-    <script src="js/modernizr.js"></script>
+    #<script src="js/modernizr.js"></script>
 </body>
 </html>
