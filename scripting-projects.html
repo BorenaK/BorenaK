@@ -4,12 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scripting Projects</title>
+    <!-- CSS files -->
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/flexslider.css" rel="stylesheet" >
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/queries.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
     <style>
         body {
             background-color: black;
             color: white;
             font-family: monospace;
             padding-top: 50px; /* Add padding to avoid overlap with the fixed navigation */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Varela Round', sans-serif;
         }
         code {
             display: block;
@@ -19,7 +30,10 @@
             border-radius: 5px;
             margin-bottom: 20px;
             color: white; /* White text color */
-            white-space: pre-wrap; /* Preserve line breaks */
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
         .title-link {
             color: white;
@@ -49,13 +63,13 @@
     <!-- content scripting projects -->
     <!-- Row of titles linking to different sections -->
     <div style="text-align: center; margin-top: 20px;">
-        <a href="#project1" class="title-link">Project 1</a>
-        <a href="#project2" class="title-link">Project 2</a>
-        <a href="#project3" class="title-link">Project 3</a>
+        <a href="#copying" class="title-link">Copying files and creating a new version</a>
+        <a href="#build-version" class="title-link">Build Version</a>
+        <a href="#back" class="title-link">Back to Portfolio</a>
     </div>
 
     <!-- Explanation -->
-    <div class="intro text-center section-padding" id="project1">
+    <div class="intro text-center section-padding" id="copying">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 wp1">
@@ -67,42 +81,57 @@
                     <div class="code-box">
                         <pre>
                             <code>
-#!/bin/bash
-#echo "Creating the new version"
-firstline=$(head -n 1 source/changelog.md)
-read -a splitfirstline <<< $firstline
-version=${splitfirstline[1]}
-echo "You are building version" $version
-echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
-read versioncontinue
+                                #!/bin/bash
 
-if [ $versioncontinue -eq 1 ]
-then
-  echo "OK"
-  for filename in source/*
-  do
-    if [ "$filename" == "source/versioninfo.md" ]
-    then
-      echo "Copying versioninfo.md with changes"
-      # Replace "42" with "43" while copying
-      sed 's/42/43/g' $filename > build/versioninfo.md
-    else
-      echo "Copying" $filename
-      cp $filename build/.
-    fi
-  done
+                                echo "Creating the new version"
 
-  cd build/
-  echo "Build version $version contains:"
-  ls
-  echo "New version is:"
-  cat versioninfo.md
+                                # Read the first line of changelog.md into a variable
+                                firstline=$(head -n 1 source/changelog.md)
 
-  #retreat
-  cd ..
-else
-  echo "Please come back when you are ready"
-fi
+                                # Split the first line into an array
+                                read -a splitfirstline <<< $firstline
+
+                                # Get the version number from the array
+                                version=${splitfirstline[1]}
+                                echo "You are building version" $version
+
+                                # Ask the user if they want to continue
+                                echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+                                read versioncontinue
+
+                                # Check user input
+                                if [ $versioncontinue -eq 1 ]
+                                then
+                                  echo "OK"
+
+                                  # Copy files from source to build
+                                  for filename in source/*
+                                  do
+                                    if [ "$filename" == "source/versioninfo.md" ]
+                                    then
+                                      echo "Copying versioninfo.md with replacements"
+                                      # Replace "42" with "43" while copying
+                                      sed 's/42/43/g' $filename > build/versioninfo.md
+                                    else
+                                      echo "Copying" $filename
+                                      cp $filename build/.
+                                    fi
+                                  done
+
+                                  # Change directory to build
+                                  cd build/
+
+                                  # Notify the user of files in build directory
+                                  echo "Build version $version contains:"
+                                  ls
+                                  echo "New version is:"
+                                  cat versioninfo.md
+
+                                  # Change back to original directory
+                                  cd ..
+                                else
+                                  echo "Please come back when you are ready"
+                                fi
                             </code>
                         </pre>
                     </div>
@@ -113,7 +142,7 @@ fi
 
     <!-- link to main portfolio -->
     <div style="text-align: center; margin-bottom: 20px;">
-        <a href="index.html" id="back" style="color: white;">main</a>
+        <a href="index.html" id="back" style="color: white;">Back to Portfolio</a>
     </div>
 
     <!-- JavaScript files -->
