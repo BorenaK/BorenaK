@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scripting Projects</title>
+    <!-- CSS files -->
+    <link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/flexslider.css" rel="stylesheet" >
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/queries.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Varela Round', sans-serif;
+        }
+        code {
+            display: block;
+            padding: 10px;
+            background-color: #333;
+            overflow-x: auto;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .title-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .title-link:hover {
+            color: yellow;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- content scripting projects -->
+    <header id="home">
+        <nav>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-8 col-xs-offset-2">
+                        <nav class="pull">
+                            <ul class="top-nav">
+                                <li><a href="#intro">Introduction <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#features">Expertise<span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#responsive">CV <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#portfolio">Portfolio <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#team">About me <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                                <li><a href="#contact">Contact <span class="indicator"><i class="fa fa-angle-right"></i></span></a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- Row of titles linking to different sections -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="#copying" class="title-link">Copying files and creating a new version</a>
+        <a href="#build-version" class="title-link">Build Version</a>
+        <a href="#back" class="title-link">Back to Portfolio</a>
+    </div>
+
+    <!-- Explanation and code snippet -->
+    <div class="intro text-center section-padding" id="copying">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 wp1">
+                    <h1 class="arrow">Copying files and creating a new version</h1>
+                    <p>
+                        #!/bin/bash
+
+                        echo "Creating the new version"
+
+                        # Read the first line of changelog.md into a variable
+                        firstline=$(head -n 1 source/changelog.md)
+
+                        # Split the first line into an array
+                        read -a splitfirstline <<< $firstline
+
+                        # Get the version number from the array
+                        version=${splitfirstline[1]}
+                        echo "You are building version" $version
+
+                        # Ask the user if they want to continue
+                        echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+                        read versioncontinue
+
+                        # Check user input
+                        if [ $versioncontinue -eq 1 ]
+                        then
+                          echo "OK"
+
+                          # Copy files from source to build
+                          for filename in source/*
+                          do
+                            if [ "$filename" == "source/versioninfo.md" ]
+                            then
+                              echo "Copying versioninfo.md with replacements"
+                              # Replace "42" with "43" while copying
+                              sed 's/42/43/g' $filename > build/versioninfo.md
+                            else
+                              echo "Copying" $filename
+                              cp $filename build/.
+                            fi
+                          done
+
+                          # Change directory to build
+                          cd build/
+
+                          # Notify the user of files in build directory
+                          echo "Build version $version contains:"
+                          ls
+                          echo "New version is:"
+                          cat versioninfo.md
+
+                          # Change back to original directory
+                          cd ..
+                        else
+                          echo "Please come back when you are ready"
+                        fi
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- link to main portfolio -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <a href="index.html" id="back" style="color: white;">Back to Portfolio</a>
+    </div>
+
+    <!-- JavaScript files -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/jquery.flexslider.js"></script>
+    <script src="js/modernizr.js"></script>
+</body>
+</html>
