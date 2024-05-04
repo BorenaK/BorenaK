@@ -23,14 +23,29 @@
             white-space: pre-wrap;
             word-wrap: break-word;
         }
+        .title-link {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .title-link:hover {
+            color: yellow;
+        }
     </style>
 </head>
 <body>
     <!-- content scripting projects -->
     <h1 style="text-align: center;">Scripting Projects</h1>
+    <!-- Row of titles linking to different sections -->
+    <div style="text-align: center;">
+        <a href="#copying" class="title-link">Copying files and creating a new version</a>
+        <a href="#build-version" class="title-link">Build Version</a>
+        <a href="#back" class="title-link">Back to Portfolio</a>
+    </div>
+
     <!-- Explanation and code snippet -->
     <div>
-        <p>Copying files and creating a new version</p>
+        <p id="copying">Copying files and creating a new version</p>
         <code>
             <pre style="color: white;">
                 #!/bin/bash
@@ -90,10 +105,9 @@
 
     <!-- link to main portfolio -->
     <div style="text-align: center;">
-        <a href="index.html" style="color: white;">Back to Portfolio</a>
+        <a href="index.html" id="back" style="color: white;">Back to Portfolio</a>
     </div>
 
     <!-- JavaScript files -->
 </body>
 </html>
-
