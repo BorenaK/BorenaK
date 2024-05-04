@@ -11,7 +11,7 @@
     <link href="css/flexslider.css" rel="stylesheet" >
     <link href="css/styles.css" rel="stylesheet">
     <link href="css/queries.css" rel="stylesheet">
-    #<link href="css/animate.css" rel="stylesheet">
+    <!-- <link href="css/animate.css" rel="stylesheet"> --> <!-- Commented out because the link was invalid -->
     <style>
         body {
             background-color: black;
@@ -49,7 +49,7 @@
         }
         .code-box {
             background-color: black; /* Black background */
-            border-radius: 0px;
+            border-radius: 5px;
             padding: 20px;
             margin-bottom: 20px;
             overflow-x: auto;
@@ -69,7 +69,7 @@
     </div>
 
     <!-- Explanation -->
-    <div class="intro text-center section-padding" id="project 1">
+    <div class="intro text-center section-padding" id="project1"> <!-- Corrected ID -->
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 wp1">
@@ -81,43 +81,42 @@
                     <div class="code-box">
                         <pre>
                             <code>
-#!/bin/bash
-#echo "Creating the new version"
-firstline=$(head -n 1 source/changelog.md)
-read -a splitfirstline <<< $firstline
-version=${splitfirstline[1]}
-echo "You are building version" $version
-echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
-read versioncontinue
+                                #!/bin/bash
+                                #echo "Creating the new version"
+                                firstline=$(head -n 1 source/changelog.md)
+                                read -a splitfirstline <<< $firstline
+                                version=${splitfirstline[1]}
+                                echo "You are building version" $version
+                                echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+                                read versioncontinue
 
-if [ $versioncontinue -eq 1 ]
-then
-  echo "OK"
-  for filename in source/*
-  do
-    if [ "$filename" == "source/versioninfo.md" ]
-    then
-      echo "Copying versioninfo.md with changes"
-      # Replace "42" with "43" while copying
-      sed 's/42/43/g' $filename > build/versioninfo.md
-    else
-      echo "Copying" $filename
-      cp $filename build/.
-    fi
-  done
+                                if [ $versioncontinue -eq 1 ]
+                                then
+                                  echo "OK"
+                                  for filename in source/*
+                                  do
+                                    if [ "$filename" == "source/versioninfo.md" ]
+                                    then
+                                      echo "Copying versioninfo.md with changes"
+                                      # Replace "42" with "43" while copying
+                                      sed 's/42/43/g' $filename > build/versioninfo.md
+                                    else
+                                      echo "Copying" $filename
+                                      cp $filename build/.
+                                    fi
+                                  done
 
-  cd build/
-  echo "Build version $version contains:"
-  ls
-  echo "New version is:"
-  cat versioninfo.md
+                                  cd build/
+                                  echo "Build version $version contains:"
+                                  ls
+                                  echo "New version is:"
+                                  cat versioninfo.md
 
-  #retreat
-  cd ..
-else
-  echo "Please come back when you are ready"
-fi
-
+                                  #retreat
+                                  cd ..
+                                else
+                                  echo "Please come back when you are ready"
+                                fi
                             </code>
                         </pre>
                     </div>
