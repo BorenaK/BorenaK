@@ -21,6 +21,18 @@
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Varela Round', sans-serif;
         }
+        code {
+            display: block;
+            padding: 10px;
+            background-color: #333;
+            overflow-x: auto;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
         .title-link {
             color: white;
             text-decoration: none;
@@ -39,7 +51,7 @@
             padding: 20px;
             margin-bottom: 20px;
             overflow-x: auto;
-            text-align: left; /* Aligning the content to the left */
+            text-align: left; /* Align code snippet box to the left */
         }
         .code-box pre {
             margin: 0;
@@ -75,14 +87,18 @@
         <a href="#back" class="title-link">Back to Portfolio</a>
     </div>
 
-    <!-- Explanation and code snippet -->
+    <!-- Explanation -->
     <div class="intro text-center section-padding" id="copying">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2 wp1">
                     <h1 class="arrow">Copying files and creating a new version</h1>
+                    <p>
+                        This script creates a new version by copying files and updating version information.
+                    </p>
+                    <!-- Code snippet box -->
                     <div class="code-box">
-                        <pre>
+                        <code>
                             #!/bin/bash
 
                             echo "Creating the new version"
@@ -134,7 +150,7 @@
                             else
                               echo "Please come back when you are ready"
                             fi
-                        </pre>
+                        </code>
                     </div>
                 </div>
             </div>
@@ -155,4 +171,3 @@
     <script src="js/modernizr.js"></script>
 </body>
 </html>
-
