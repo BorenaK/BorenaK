@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linux Projects</title>
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Varela Round', sans-serif;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .script-textarea {
+            tab-size: 4;
+            font-size: 12px !important;
+            line-height: 15px !important;
+            width: 100%;
+            #height: 200px;
+            overflow: auto;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 10px;
+        }
+        .title-row {
+            margin-bottom: 20px;
+        }
+        .title-col {
+            text-align: center;
+        }
+        .title-icon {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .title-text {
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            color: black;
+            text-decoration: none; /* Remove underline */
+        }
+        .title-text:hover {
+            color: turquoise;
+        }
+        .animated-text {
+            color: turquoise;
+            position: relative;
+            top: 10px; /* Adjust as needed */
+            transition: all 0.3s ease;
+        }
+        h3 {
+            color: darkturquoise;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Linux Projects</h1>
+        <div class="title-row">
+            <div class="row">
+                <div class="col-md-4 title-col">
+                    <i class="fa fa-code title-icon"></i>
+                    <a href="#troubleshooting" class="title-text">Troubleshooting Network Connections</a>
+                </div>
+                <div class="col-md-4 title-col">
+                    <i class="fa fa-wrench title-icon"></i>
+                    <a href="#filecopy" class="title-text">File Copying and Updating</a>
+                </div>
+                <div class="col-md-4 title-col">
+                    <i class="fa fa-info title-icon"></i>
+                    <a href="#project3" class="title-text">Project 3</a>
+                </div>
+            </div>
+        </div>
+
+        <h3 id="troubleshooting" style="color: #008B8B;">Troubleshooting Network Connections</h3>
+        <p>Script to troubleshoot networking issues</p>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 300px";>
+#!/bin/bash
+
+echo "Checking internet connectivity"
+echo
+
+# 1. ping command
+echo "Checking with ping..."
+# Ping google.com with only 1 packet (-c 1).
+if ping -c 1 google.com; then
+  echo "Ping successful: Internet is reachable."
+else
+  echo "Ping failed: Internet is not reachable."
+fi
+echo
+
+# 2. Establishing TCP connection to port 53
+echo "Checking connectivity with nc"
+# Try to open a connection to port 53 of www.google.com using /dev/tcp.
+# port 53 is the default port for DNS
+if nc -zv www.google.com 53 2>&1; then
+  echo "Port 53 is open: Internet is reachable."
+else
+  echo "Port 53 is closed or unreachable: Internet is not reachable."
+fi
+
+
+# 3. nslookup command
+echo "Checking connectivity with nslookup..."
+# Carry out a DNS lookup for google.com.
+if nslookup google.com; then
+  echo "nslookup successful: Internet is reachable."
+else
+  echo "nslookup failed: Internet is not reachable."
+fi
+echo
+
+# 4. Using the curl command
+echo "Checking connectivity with curl..."
+# Fetch the HTTP headers of www.google.com using curl, then check if the response is "200 OK".
+if curl -Is http://www.google.com | head -n 1 | grep "200 OK" ; then
+  echo "HTTP 200 OK: Internet is reachable."
+else
+  echo "HTTP request failed: Internet is not reachable."
+fi
+echo
+
+# 5. Using the telnet command
+echo "Checking connectivity with telnet..."
+# Connect to port 80 of google.com with telnet, then check if "Connected" is present.
+if { echo quit; sleep 1; } | telnet google.com 80 2>&1 | grep -q "Connected"; then
+  echo "Telnet successful: Internet is reachable."
+else
+  echo "Telnet failed: Internet is not reachable."
+fi
+echo
+
+# 6. Using the nmap Command
+echo "Checking connectivity with nmap..."
+# Scan port 443 of google.com with nmap, to verify if HTTPS services are available, check if port 443 open.
+if nmap -p 443 google.com | grep -q "443/tcp open"; then
+  echo "Port 443 is open: Internet is reachable."
+else
+  echo "Port 443 is closed or unreachable: Internet is not reachable."
+fi
+echo
+
+# 7. With the nc command
+echo "Checking connectivity with nc (netcat)..."
+# Connect to port 443 of google.com with netcat, then check if "succeeded" is present.
+if nc -vz google.com 443 2>&1 | grep -q succeeded; then
+  echo "Netcat successful: Internet is reachable."
+else
+  echo "Netcat failed: Internet is not reachable."
+fi
+echo
+
+# 8. Using the wget Command
+echo "Checking connectivity with wget..."
+# Check if http://google.com is reachable without downloading anything.
+if wget --spider http://google.com; then
+  echo "Wget successful: Internet is reachable."
+else
+  echo "Wget failed: Internet is not reachable."
+fi
+echo
+
+echo "Connectivity check completed."
+        </textarea>
+        <p>Check the route table</p>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 50px">
+# To show destination networks, gateways, netmask, flags, and interface names
+route -n
+        </textarea>
+        <p>Check configuration of Firewalls (Redhat and CentOS</p>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 100px">
+#check if firewall is running
+sudo firewall-cmd --state
+
+#list all active rules
+sudo firewall-cmd --list-all
+
+#list all rules in the filter table with -v verbose output
+sudo iptables -L -v -n
+        </textarea>
+        <p>Verify if the network is configured as required</p>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 100px">
+# VPN tunnel status
+sudo ipsec status
+
+#Verify Network interfaces and IP addresses
+ip addr show
+
+#List routes
+ip route show
+        </textarea>
+        <p>Ensure that the instances themselves are powered on and not experiencing any performance issues</p>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 200px">
+# Check system uptime
+uptime
+
+#Processes running
+top
+
+#memory usage
+free -m
+
+#disk usage
+df -h
+
+#check system logs
+sudo journalctl -xe
+        </textarea>
+        <p>Solutions</p>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 30px">
+# Add a rule to whitelist a specific IP and port
+sudo iptables -A INPUT -p tcp -s <SOURCE_IP> --dport <PORT> -j ACCEPT
+        </textarea>
+
+        <h3 id="filecopy" style="color: #008B8B;">File Copying and Updating</h3>
+        <h4>Setup Script</h4>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 200px">
+#!/bin/bash
+# Create the source directory if it doesn't exist
+mkdir -p source
+
+# Create the changelog.md file with a version entry
+echo "Version 1.0.0 - Initial release" > source/changelog.md
+
+# Create the versioninfo.md file with some sample content
+echo "This is version 42 of the software." > source/versioninfo.md
+
+# Optionally, create other sample files in the source directory
+echo "Sample content for file1.txt" > source/file1.txt
+echo "Sample content for file2.txt" > source/file2.txt
+
+# Create the build directory if it doesn't exist
+mkdir -p build
+
+echo "Setup complete. You can now run your original script."
+        </textarea>
+
+        <h4>New Version Script</h4>
+        <textarea wrap="soft" class="script-textarea" readonly style="height: 300px">
+#!/bin/bash
+#echo "Creating the new version"
+firstline=$(head -n 1 source/changelog.md)
+read -a splitfirstline &lt;&lt;&lt; $firstline                         
+version=${splitfirstline[1]}
+echo "Building version" $version
+echo 'Do you want to continue? (enter "1" for yes, "0" for no)'
+read versioncontinue
+if [ $versioncontinue -eq 1 ]
+then
+  echo "OK"
+
+  # Copy files from source to build
+  for filename in source/*
+  do
+    if [ "$filename" == "source/versioninfo.md" ]
+    then
+      echo "Copying versioninfo.md with changes"
+      # Replace "42" with "43" while copying
+      sed 's/42/43/g' $filename &gt; build/versioninfo.md
+    else
+      echo "Copying" $filename
+      cp $filename build/.
+    fi
+  done
+
+  cd build/
+  echo "Build version $version contains:"
+  ls
+  echo "New version is:"
+  cat versioninfo.md
+
+  #retreat
+  cd ..
+else
+  echo "Please, return when you are ready."
+fi
+        </textarea>
+
+        <h4>Instructions</h4>
+        <ol>
+            <li>Copy the setup script into a file named <code>setup.sh</code>.</li>
+            <li>Make the setup script executable: <code>chmod +x setup.sh</code>.</li>
+            <li>Run the setup script: <code>./setup.sh</code>.</li>
+            <li>Copy the new version script into a file named <code>new_version.sh</code>.</li>
+            <li>Make the new version script executable: <code>chmod +x new_version.sh</code>.</li>
+            <li>Run the new version script: <code>./new_version.sh</code>.</li>
+        </ol>
+        <h3 id="project3" style="color: #008B8B;">Project 3 </h3>
+        <li>Updating</li>
+    </div>
+</body>
+</html>
+
+
