@@ -193,9 +193,34 @@
                           </div>
                         </div>
                       </div>
-                      <h2>Linux Projects</h2>
-                      <p>Troubleshooting Network issues.</p>
-                      <p>Script to copy files and apply a change.</p>
+                      <h2>Ask Sassolino, the Chatbot Assistant</h2>
+                      <div id="webchat"></div>
+                      <script>
+                        !(function () {
+                          let e = document.createElement("script"),
+                              t = document.head || document.getElementsByTagName("head")[0];
+                          e.src = "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.1/lib/index.js";
+                          e.async = true;
+                          e.onload = () => {
+                            window.WebChat.default(
+                              {
+                                initPayload: '/greet',
+                                customData: { language: "en" },
+                                socketUrl: "https://",
+                                title: "Sassolino",
+                                subtitle: "Ask me about your cloud, VM, or DNS issues",
+                                showMessageDate: true,
+                                inputTextFieldHint: "Type a message...",
+                                params: {
+                                  storage: "session"
+                                }
+                              },
+                              null
+                            );
+                          };
+                          t.insertBefore(e, t.firstChild);
+                        })();
+                      </script>
                     </div>
                   </li>
                   <li>
